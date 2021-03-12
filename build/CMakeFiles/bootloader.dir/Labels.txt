@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/boccara/esp/MAGELLAN/build/CMakeFiles/bootloader
+/home/boccara/esp/MAGELLAN/build/CMakeFiles/bootloader.rule
+/home/boccara/esp/MAGELLAN/build/CMakeFiles/bootloader-complete.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/boccara/esp/MAGELLAN/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
