@@ -78,24 +78,39 @@ static void echo_task(void *arg)
     // Configure a temporary buffer for the incoming data
     //uint8_t *data = (uint8_t *) malloc(BUF_SIZE);
     char data[] = "a";
+    char  datatosend[100] ;
+    int c = 0;
     while (1) {
         // Read data from the UART
-        int len = uart_read_bytes(ECHO_UART_PORT_NUM, data, BUF_SIZE, 20 / portTICK_RATE_MS);
+        int len = uart_read_bytes(ECHO_UART_PORT_NUM, &data, BUF_SIZE, 20 / portTICK_RATE_MS);
         
         
         //char ca[] = data; 
         if (len != NULL)
         {
-         printf("%c", data[0]);   
-         if(pdTRUE == xQueueSend(MyQueueHandleId,data,100))
-        {
+
+         printf("%c \n", data[0]);
+         datatosend[c] =  data[0];  
+
+         c ++; 
+         if (strcmp ("u", data) == 0 )
+         {
+            datatosend[c] = '\0';
+            printf("voici la chaine de caracter: %s \n", datatosend);
+            c = 0;
+
+            if(pdTRUE == xQueueSend(MyQueueHandleId,&datatosend,100))
+            {
              
-             printf("\n\rTask2: Successfully sent the data");
-        }
-        else
-        {
-            printf("\n\rSending Failed");
-        }
+                printf("\n\rTask2: Successfully sent the data \n");
+
+            }
+            else
+            {
+                printf("\n\rSending Failed\n");
+            }
+         }
+ 
         }
         
 
@@ -103,29 +118,6 @@ static void echo_task(void *arg)
         //uart_write_bytes(ECHO_UART_PORT_NUM, (const char *) data, len);
     }
 }
-/*--------------------------------------------------------------------------------*/
-char RxBuffer;
-static void resp_test(){
-    //while (pdTRUE !=xQueueReceive(MyQueueHandleId,RxBuffer,100))
-int resp;
-    if(MyQueueHandleId == NULL){
-        printf("Queue is not ready");
-        return;
-    }
-    while(1){
-        xQueueReceive(MyQueueHandleId,&resp,(TickType_t )(1000/portTICK_PERIOD_MS)); 
-        printf("value received on queue: %c \n",resp);
-        vTaskDelay(1000/portTICK_PERIOD_MS); //wait for 500 ms
-    }   
-        //else
-        //{
-           // printf("\n\rBack in task1, No Data received");
-            //netconn_write(conn, "hello", sizeof("hello")-1, NETCONN_NOCOPY);
-
-        //}
-
-}
-/*--------------------------------------------------------------------------------*/
 
 static esp_err_t event_handler(void *ctx, system_event_t *event)
 {
@@ -205,22 +197,23 @@ static void http_server_netconn_serve(struct netconn *conn)
         payload = (char *) malloc(stop - start + 1);
         memcpy(payload, start, stop - start);
         payload[stop - start] = '\0';
-        char  resp[] = "a";
+        char  resp[200] ;//= "a";
        
         if(MyQueueHandleId == NULL){
-            printf("Queue is not ready");
+            printf("Queue is not ready \n");
             return;
         }
         
         xQueueReceive(MyQueueHandleId,&resp,(TickType_t )(1000/portTICK_PERIOD_MS)); 
         vTaskDelay(1000/portTICK_PERIOD_MS); 
         char * http_index_html =  (char *) malloc( 200 ) ;
+       printf("value received on queue: %s \n",resp);
 
        
-       strcpy(http_index_html, "<!DOCTYPE html><html><head><title>dada</title></head><body><h1>your uart is :");
+       strcpy(http_index_html, "<!DOCTYPE html><html><head><title>dada</title></head><body><h1>your pos is :");
        strcat(http_index_html, resp);
        strcat(http_index_html, "</h1></body></html>");
-       printf("value received on queue: %s \n",http_index_html);
+       printf(" %s \n",http_index_html);
         
         //printf("%s\n", resp);
         if (strncmp(buf, "GET /", 5) == 0){
@@ -287,7 +280,7 @@ int app_main(void)
     initialise_wifi();
     xTaskCreate(&http_server, "http_server", 2048, NULL, 5, NULL);
 
-    MyQueueHandleId=xQueueCreate(20,sizeof(unsigned long));
+    MyQueueHandleId=xQueueCreate(20,200);
     //MyQueueHandleId = NULL;
     if(MyQueueHandleId != NULL)
     {
