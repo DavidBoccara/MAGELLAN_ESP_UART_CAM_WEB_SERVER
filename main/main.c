@@ -20,9 +20,10 @@ const int CONNECTED_BIT = BIT0;
 
 #include "lwip/err.h"
 #include "string.h"
-
-#define AP_TARGET_SSID "Wifidrone"
-#define AP_TARGET_PASSWORD "boboboc68"
+#define AP_TARGET_SSID "BOCCARA"
+#define AP_TARGET_PASSWORD "strongriver451"
+//#define AP_TARGET_SSID "Livebox-BF50"
+//#define AP_TARGET_PASSWORD "YjynsdzcmeA3icpA9Z"
 #define ECHO_TEST_RTS (UART_PIN_NO_CHANGE)
 #define ECHO_TEST_CTS (UART_PIN_NO_CHANGE)
 #define ECHO_UART_PORT_NUM      (0)
@@ -75,13 +76,17 @@ static void echo_task(void *arg)
     ESP_ERROR_CHECK(uart_set_pin(ECHO_UART_PORT_NUM, ECHO_TEST_TXD, ECHO_TEST_RXD, ECHO_TEST_RTS, ECHO_TEST_CTS));
 
     // Configure a temporary buffer for the incoming data
-    uint8_t *data = (uint8_t *) malloc(BUF_SIZE);
-
+    //uint8_t *data = (uint8_t *) malloc(BUF_SIZE);
+    char data[] = "a";
     while (1) {
         // Read data from the UART
         int len = uart_read_bytes(ECHO_UART_PORT_NUM, data, BUF_SIZE, 20 / portTICK_RATE_MS);
+        
+        
+        //char ca[] = data; 
         if (len != NULL)
         {
+         printf("%c", data[0]);   
          if(pdTRUE == xQueueSend(MyQueueHandleId,data,100))
         {
              
@@ -200,25 +205,30 @@ static void http_server_netconn_serve(struct netconn *conn)
         payload = (char *) malloc(stop - start + 1);
         memcpy(payload, start, stop - start);
         payload[stop - start] = '\0';
-        char resp;
-
+        char  resp[] = "a";
        
         if(MyQueueHandleId == NULL){
             printf("Queue is not ready");
             return;
         }
-       
+        
         xQueueReceive(MyQueueHandleId,&resp,(TickType_t )(1000/portTICK_PERIOD_MS)); 
-        printf("value received on queue: %c \n",resp);
-        vTaskDelay(1000/portTICK_PERIOD_MS); //wait for 500 ms
+        vTaskDelay(1000/portTICK_PERIOD_MS); 
+        char * http_index_html =  (char *) malloc( 200 ) ;
+
        
-        /* For now  only GET results in a valid respons */
+       strcpy(http_index_html, "<!DOCTYPE html><html><head><title>dada</title></head><body><h1>your uart is :");
+       strcat(http_index_html, resp);
+       strcat(http_index_html, "</h1></body></html>");
+       printf("value received on queue: %s \n",http_index_html);
+        
+        //printf("%s\n", resp);
         if (strncmp(buf, "GET /", 5) == 0){
             printf("GET = '%s' \n", payload);
             /* send HTTP Ok to client */
             netconn_write(conn, HDR_200, sizeof(HDR_200)-1, NETCONN_NOCOPY);
             /* send "hello world to client" */
-            netconn_write(conn, resp, sizeof(resp)-1, NETCONN_NOCOPY);
+            netconn_write(conn, http_index_html, 97-1, NETCONN_NOCOPY);
 
         }else if (strncmp(buf, "POST /", 6) == 0){
             /* send '501 Not implementd' reply  */
