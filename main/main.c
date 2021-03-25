@@ -27,7 +27,7 @@
 //#define SSID "Livebox-BF50"
 //#define PASSPHARSE "YjynsdzcmeA3icpA9Z"
 
-#define TCPServerIP "10.0.0.48"
+#define TCPServerIP "10.0.0.12"
 
 static EventGroupHandle_t wifi_event_group;
 const int CONNECTED_BIT = BIT0;

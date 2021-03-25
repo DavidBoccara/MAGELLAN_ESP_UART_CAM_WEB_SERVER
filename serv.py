@@ -28,11 +28,17 @@ def Main():
             data = connsocket.recv(1024)
             if not data: break            
             print("from connected user: ", data.decode()) # convert from byte to string
-            data = str(data).replace('\r', '')
+            #data = str(data).replace("\r", '')
+            data = data.decode()
+            data = str(data).replace("\r", '')
             data1 = data.split(',')
             print(str(data1) +"\n")
-            #connsocket.send(b'Echo=>' + data)           
-            plot_point(ax,x,y)
+            #connsocket.send(b'Echo=>' + data)  
+            x= data1[0]
+            y= data1[1]
+            
+            print("x = "+ x + "y = "+y)         
+            plot_point(ax,float(x),float(y))
         connsocket.close()
         
     serversocket.close()        
