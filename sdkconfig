@@ -203,7 +203,7 @@ CONFIG_UART_ISR_IN_IRAM=y
 #
 # RTCIO configuration
 #
-# CONFIG_RTCIO_SUPPORT_RTC_GPIO_DESC is not set
+CONFIG_RTCIO_SUPPORT_RTC_GPIO_DESC=y
 # end of RTCIO configuration
 # end of Driver configurations
 
@@ -289,6 +289,13 @@ CONFIG_ESP32_DPORT_DIS_INTERRUPT_LVL=5
 #
 # CONFIG_PM_ENABLE is not set
 # end of Power Management
+
+#
+# Camera configuration
+#
+CONFIG_OV2640_SUPPORT=y
+# CONFIG_OV7725_SUPPORT is not set
+# end of Camera configuration
 
 #
 # ADC-Calibration
