@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/boccara/esp/esp-idf/components/fb_gfx/FreeMonoBold12pt7b.h
+
+/home/boccara/esp/esp-idf/components/fb_gfx/fb_gfx.c
+stdint.h
+/home/boccara/esp/esp-idf/components/fb_gfx/stdint.h
+stdarg.h
+/home/boccara/esp/esp-idf/components/fb_gfx/stdarg.h
+string.h
+/home/boccara/esp/esp-idf/components/fb_gfx/string.h
+stdio.h
+/home/boccara/esp/esp-idf/components/fb_gfx/stdio.h
+stdlib.h
+/home/boccara/esp/esp-idf/components/fb_gfx/stdlib.h
+fb_gfx.h
+/home/boccara/esp/esp-idf/components/fb_gfx/fb_gfx.h
+FreeMonoBold12pt7b.h
+/home/boccara/esp/esp-idf/components/fb_gfx/FreeMonoBold12pt7b.h
+
+/home/boccara/esp/esp-idf/components/fb_gfx/include/fb_gfx.h
+
